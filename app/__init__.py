@@ -1,0 +1,1 @@
+"""PaperTrail example: local event-driven integration prototype."""

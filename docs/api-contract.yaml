@@ -1,0 +1,32 @@
+openapi: 3.0.3
+info:
+  title: PaperTrail Orders API (proposed)
+  version: 0.1.0
+  description: Draft contract for a future HTTP adapter; not implemented in this repository.
+paths:
+  /orders:
+    post:
+      summary: Accept a new order
+      operationId: createOrder
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema: {type: string, minLength: 1}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [orderId, item, quantity]
+              properties:
+                orderId: {type: string}
+                item: {type: string}
+                quantity: {type: integer, minimum: 1}
+      responses:
+        '202': {description: Accepted for asynchronous fulfilment}
+        '200': {description: Previously accepted order}
+        '400': {description: Invalid request}
+        '401': {description: Unauthenticated}
+        '409': {description: Conflicting idempotency key}
